@@ -1,0 +1,43 @@
+<meta-descriptor> ::= "title:" <string> [<start-point>] "components:" <component>+ "relations:" <relation>+
+
+<start-point> ::= "start_point:" <identifier>
+
+<component> ::= <name> ":" <component-properties> "artifacts:" <artifact>
+
+<component-properties> ::= "name:" <string> "properties:" <properties>? "type:" <string>? "artifacts:" <artifact>?
+
+<properties> ::= <property>+
+
+<property> ::= <property-name> ":" <property-value>
+
+<property-name> ::= <identifier>
+
+<property-value> ::= <string> | <integer> | <float> | <boolean>
+
+<artifact> ::= "name:" <string> "technology:" <string>?
+
+<relation> ::= <relation-type> ":" <relation-info>+
+
+<relation-type> ::= <identifier>
+
+<relation-info> ::= "- out:" <identifier> "in:" <identifier>
+
+<string> ::= <enclosed-string>
+
+<enclosed-string> ::= '"' <characters> '"'
+
+<integer> ::= <digit>+
+
+<float> ::= <digit>+ '.' <digit>+
+
+<boolean> ::= "true" | "false"
+
+<name> ::= <identifier>
+
+<identifier> ::= <letter> <letter-or-digit>*
+
+<letter> ::= 'a' | 'b' | ... | 'z' | 'A' | 'B' | ... | 'Z'
+
+<letter-or-digit> ::= <letter> | <digit>
+
+<digit> ::= '0' | '1' | ... | '9'

@@ -1,0 +1,168 @@
+title: "Système d'ingestion des métriques"
+start_point: client
+components:
+  coordinator:
+    name: coordinator
+    artifacts:
+      name: aderp/coordinator
+  
+  zookeeper:
+    name: zookeeper
+    properties:
+      environment:
+        ZOOKEEPER_CLIENT_PORT: 2181
+        ZOOKEEPER_TICK_TIME: 2000
+    artifacts:
+      name: confluentinc/cp-zookeeper:latest
+  
+  kafka:
+    name: kafka
+    properties:
+      environment:
+        KAFKA_BROKER_ID: 1
+        KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+        KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+        KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+        KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+        KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    artifacts:
+      name: confluentinc/cp-kafka:latest
+
+  clustermanager_1:
+    name: clustermanager_1
+    artifacts:
+      name: aderp/clustermanager
+  
+  clustermanager_2:
+    name: clustermanager_2
+    artifacts:
+      name: aderp/clustermanager
+  
+  clustermanager_3:
+    name: clustermanager_3
+    artifacts:
+      name: aderp/clustermanager
+  
+  backend_1:
+    name:  backend_server_1
+    artifacts:
+      name: aderp/backend
+
+  backend_2:
+    name:  backend_server_2
+    artifacts:
+      name: aderp/backend
+  
+  backend_3:
+    name:  backend_server_3
+    artifacts:
+      name: aderp/backend
+
+  namenode:
+    name: namenode
+    properties: 
+      ports:
+        - 9870:9870
+        - 9000:9000
+      volumes:
+        - hadoop_namenode:/hadoop/dfs/name
+      environment:
+        - CLUSTER_NAME=test
+      env_file:
+        - ./hadoop.env
+    artifacts:
+      name: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+
+  datanode:
+    name: datanode
+    properties:
+      volumes:
+        - hadoop_datanode:/hadoop/dfs/data
+      environment:
+        SERVICE_PRECONDITION: "namenode:9870"
+      nv_file:
+        - ./hadoop.env
+    artifacts:
+      name: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+      technology: HDFS
+  
+  resourcemanager:
+    name: resourcemanager
+    properties:
+      environment:
+        SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+      env_file:
+        - ./hadoop.env
+    artifacts:
+      name: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
+  
+  nodemanager1:
+    name: nodemanager
+    properties:
+      environment:
+        SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+      env_file:
+        - ./hadoop.env
+    artifacts:
+      name: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
+  
+  historyserver:
+    name: historyserver
+    properties:
+      environment:
+        SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+      volumes:
+        - hadoop_historyserver:/hadoop/yarn/timeline
+      env_file:
+        - ./hadoop.env
+    artifacts:
+      name: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8
+  
+  blobstore:
+    name: BlobStore
+    function: storage
+    artifacts:
+      name:  aderp/blobstore
+
+relations:
+  depends_on:
+    - out: coordinator
+      in: kafka
+    - out: kafka
+      in: zookeeper
+    - out: clustermanager_1
+      in: kafka
+    - out: clustermanager_1
+      in: datanode
+    - out: clustermanager_2
+      in: kafka
+    - out: clustermanager_2
+      in: datanode
+    - out: clustermanager_3
+      in: kafka
+    - out: clustermanager_3
+      in: datanode
+    - out: backend_1
+      in: clustermanager_1
+    - out: backend_1
+      in: blobstore
+    - out: backend_2
+      in: clustermanager_2
+    - out: backend_2
+      in: blobstore
+    - out: backend_3
+      in: clustermanager_3
+    - out: backend_3
+      in: blobstore
+    - out: namenode
+      in: datanode
+  
+  networks:
+    - name: replicaSet
+      components: 
+        - clustermanager_1
+        - clustermanager_2
+        - clustermanager_3
+        - backend_1
+        - backend_2
+        - backend_3

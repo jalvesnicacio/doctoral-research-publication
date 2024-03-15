@@ -1,0 +1,167 @@
+#@system-title: Time series metric system
+#@external-component: clientapp
+#@start-point: clientapp
+services:
+  coordinator:
+    container_name: coordinator
+    image: aderp/coordinator
+    build: ./coordinator
+    depends_on:
+      - kafka
+
+  #@group: kafka
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - 22181:2181
+
+  #@group: kafka
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - 29092:29092
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  #@cluster: set 1
+  clustermanager_1:
+    container_name: clustermanager_1
+    image: aderp/clustermanager
+    build: ./clustermanager
+    depends_on:
+      - kafka
+      - datanode
+    networks:
+      - replicaSet
+
+  #@cluster: set 2
+  clustermanager_2:
+    container_name: clustermanager_1
+    image: aderp/clustermanager
+    build: ./clustermanager
+    depends_on:
+      - kafka
+      - datanode
+    networks:
+      - replicaSet
+
+  #@cluster: set 3
+  clustermanager_3:
+    container_name: clustermanager_1
+    image: aderp/clustermanager
+    build: ./clustermanager
+    depends_on:
+      - kafka
+      - datanode
+    networks:
+      - replicaSet
+
+  #@cluster: set 1
+  backend_1:
+    container_name: backend_server_1
+    image: aderp/backend
+    build: ./backend
+    depends_on:
+      - clustermanager_1
+      - blobstore
+    networks:
+      - replicaSet
+
+  #@cluster: set 2
+  backend_2:
+    container_name: backend_server_2
+    image: aderp/backend
+    build: ./backend
+    depends_on:
+      - clustermanager_2
+      - blobstore
+    networks:
+      - replicaSet
+
+  #@cluster: set 3
+  backend_3:
+    container_name: backend_server_3
+    image: aderp/backend
+    build: ./backend
+    depends_on:
+      - clustermanager_3
+      - blobstore
+    networks:
+      - replicaSet
+
+  #@group: HDFS
+  namenode:
+    image: bde2020/hadoop-namenode:2.0.0-hadoop3.2.1-java8
+    container_name: namenode
+    restart: always
+    depends_on:
+      - datanode
+    ports:
+      - 9870:9870
+      - 9000:9000
+    volumes:
+      - hadoop_namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop.env
+
+  #@group: HDFS
+  datanode:
+    image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
+    container_name: datanode
+    restart: always
+    volumes:
+      - hadoop_datanode:/hadoop/dfs/data
+    environment:
+      SERVICE_PRECONDITION: "namenode:9870"
+    env_file:
+      - ./hadoop.env
+
+  #@group: HDFS
+  resourcemanager:
+    image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
+    container_name: resourcemanager
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864"
+    env_file:
+      - ./hadoop.env
+
+  #@group: HDFS
+  nodemanager1:
+    image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
+    container_name: nodemanager
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+    env_file:
+      - ./hadoop.env
+
+  #@group: HDFS
+  historyserver:
+    image: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8
+    container_name: historyserver
+    restart: always
+    environment:
+      SERVICE_PRECONDITION: "namenode:9000 namenode:9870 datanode:9864 resourcemanager:8088"
+    volumes:
+      - hadoop_historyserver:/hadoop/yarn/timeline
+    env_file:
+      - ./hadoop.env
+
+  blobstore:
+    container_name: BlobStore
+    image: aderp/blobstore
+    build: ./blobstore
