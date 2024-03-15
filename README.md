@@ -1,5 +1,7 @@
 # doctoral-research-publication
 
+[![DOI](https://zenodo.org/badge/772738210.svg)](https://zenodo.org/doi/10.5281/zenodo.10823332)
+
 This repository contains data collected and analyzed as part of a doctoral research project that explores the improvement of the consistency of architectural diagrams of distributed systems through the use of system descriptors. The data stem from two distinct research methodologies: a survey and an empirical experiment, detailed as follows:
 
 1. **Survey Data:**
