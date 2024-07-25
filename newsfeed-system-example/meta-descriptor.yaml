@@ -35,11 +35,16 @@ components:
     type: service
     artifacts:
       name: casestudy/postservice
+  publicationservice:
+    name: publicationservice
+    type: service
+    artifacts:
+      name: casestudy/publicationservice
   fanoutservice:
     name: fanoutservice
     type: service
     artifacts:
-      name: casestudy/fanoutservice 
+      name: casestudy/fanoutservice
   redis:
     name: redis
     type: messagequeue
@@ -54,19 +59,26 @@ components:
     artifacts:
       name: worker-image:latest
 
-
-relations: 
+relations:
   - out: nginx
     in: webserver
+  - out: webserver
+    in: postservice
+  - out: webserver
+    in: fanoutservice
+  - out: webserver
+    in: notificationservice
   - out: postservice
     in: db
-  - out: postservice,
+  - out: postservice
     in: cache
   - out: fanoutservice
     in: db
-  - out: fanoutservice,
+  - out: fanoutservice
     in: cache
-  - out: fanoutservice,
+  - out: fanoutservice
     in: redis
   - out: worker,
     in: redis
+  - out: worker
+    in: cache

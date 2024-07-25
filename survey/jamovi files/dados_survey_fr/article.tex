@@ -1,0 +1,347 @@
+\documentclass[a4paper,man,hidelinks,floatsintext,x11names]{apa7}
+% This LaTeX output is designed to use APA7 style and to run on local TexLive-installation (use pdflatex) as well as on web interfaces (e.g., overleaf.com).
+% To use APA6 style change apa7 to apa6 in the first line (\documentclass), comment or remove the \addORCIDlink line, and change the order of \caption and \label lines for the figures.
+% If you prefer postponing your figures and table until after the reference list, instead of having them within the body of the text, please remove the ",floatsintext" from the documentclass options.
+% Further information on these styles can be found here: https://www.ctan.org/pkg/apa7 and here: https://www.ctan.org/pkg/apa6
+
+\usepackage[british]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+\usepackage{csquotes}
+\usepackage{soul}
+%\usepackage[style=apa,sortcites=true,sorting=nyt,backend=biber]{biblatex}
+%\DeclareLanguageMapping{british}{british-apa}
+%\addbibresource{article.bib}
+
+\title{APA-Style Manuscript with jamovi Results}
+\shorttitle{jamovi Results}
+\author{Full Name}
+\leftheader{Last name}
+\affiliation{Your Affilitation}
+% addORCIDlink is only available from apa7
+\authornote{\addORCIDlink{Your Name}{0000-0000-0000-0000}\\
+More detailed information about how to contact you.\\
+Can continue over several lines.
+}
+
+\abstract{Your abstract here.}
+\keywords{keyword 1, keyword 2}
+
+\begin{document}
+%\maketitle
+
+% Your introduction starts here.
+
+%\section{Methods}
+% Feel free to adjust the subsections below.
+
+%\subsection{Participants}
+% Your participants description goes here.
+
+%\subsection{Materials}
+% Your description of the experimental materials goes here.
+
+%\subsection{Procedure}
+% Your description of the experimental procedures goes here.
+
+%\subsection{Statistical Analyses}
+%The description of the statistical procedures that were used to analyse your data goes here.
+
+
+% =========================================================================================================
+
+\section{Resultados}
+
+           
+      
+        
+      
+    
+      
+      
+    
+            
+\section{Descriptives}
+
+           
+      
+        
+      
+    
+      
+      
+    
+      
+        
+      
+    
+      
+      
+    
+            
+\section{L'âge des participants}
+
+           
+      
+        
+      
+    
+      
+      
+    %\begin{figure}[htbp]
+%\caption{PLACEHOLDER}
+%\label{fig:Figure_1}
+% (the following arrangement follows APA7; if you want to use APA6, the caption- and label-lines have to be moved to after the includegraphics-line)
+% the figure file could not be exported, the LaTeX command below including that figure was therefore commented out
+%\centering
+%\includegraphics[width=\columnwidth]{figure_1.png}
+%\end{figure}
+
+      
+        
+      
+    
+      
+      
+    
+      
+      
+    
+      
+        
+      
+    
+      
+      
+    
+            
+\section{Lesquelles de ces notations utilisez-vous ?}
+
+           
+      
+        
+      
+    
+\begin{table}[!htbp]
+\caption{Multi Response}
+\label{tab:Table_1}
+\begin{adjustbox}{max size={\columnwidth}{\textheight}}
+\centering
+\begin{tabular}{lrrr}
+\toprule
+Option                            & Frequency & Percentage of responses & Percentage of cases \\
+\midrule
+Use UML                           &        28 &                   71.79 &               82.35 \\
+Use ArchiMate                     &         0 &                    0.00 &                0.00 \\
+Use OMG Model Driven Architecture &         5 &                   12.82 &               14.71 \\
+Use SysML                         &         0 &                    0.00 &                0.00 \\
+Use None                          &         3 &                    7.69 &                8.82 \\
+Use Other (ER model)              &         2 &                    5.13 &                5.88 \\
+Use Other (Flowchart)             &         1 &                    2.56 &                2.94 \\
+Total:                            &        39 &                  100.00 &              114.71 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\begin{tablenotes}[para,flushleft] {
+\small
+\textit{Note.}~These responses were provided by 34 cases.. \\
+}
+\end{tablenotes}
+\end{table}
+
+
+      
+        
+      
+    
+      
+      
+    
+      
+        
+      
+    
+      
+      
+    
+            
+\section{Quel poste occupez-vous (ou occupiez-vous)?}
+
+           
+      
+        
+      
+    
+\begin{table}[!htbp]
+\caption{Multi Response}
+\label{tab:Table_2}
+\begin{adjustbox}{max size={\columnwidth}{\textheight}}
+\centering
+\begin{tabular}{lrrr}
+\toprule
+Option                 & Frequency & Percentage of responses & Percentage of cases \\
+\midrule
+Software architect     &         8 &                    9.30 &               23.53 \\
+Fullstack developer    &        14 &                   16.28 &               41.18 \\
+Backend developer      &        16 &                   18.60 &               47.06 \\
+System administrator   &         4 &                    4.65 &               11.76 \\
+Frontend developer     &        10 &                   11.63 &               29.41 \\
+Mobile developer       &         6 &                    6.98 &               17.65 \\
+QA Test developer      &         5 &                    5.81 &               14.71 \\
+DevOps developer       &         3 &                    3.49 &                8.82 \\
+Database administrator &         5 &                    5.81 &               14.71 \\
+Desktop developer      &         3 &                    3.49 &                8.82 \\
+Data scientist         &         2 &                    2.33 &                5.88 \\
+Embedded developer     &         2 &                    2.33 &                5.88 \\
+Product manager        &         4 &                    4.65 &               11.76 \\
+Game developer         &         1 &                    1.16 &                2.94 \\
+Designer               &         3 &                    3.49 &                8.82 \\
+Total:                 &        86 &                  100.00 &              252.94 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\begin{tablenotes}[para,flushleft] {
+\small
+\textit{Note.}~These responses were provided by 34 cases.. \\
+}
+\end{tablenotes}
+\end{table}
+
+
+      
+        
+      
+    
+      
+      
+    
+      
+        
+      
+    
+      
+      
+    
+            
+\section{Statistiques descriptives}
+
+           
+      
+        
+      
+    
+\begin{table}[!htbp]
+\caption{Statistiques descriptives}
+\label{tab:Table_3}
+\begin{adjustbox}{max size={\columnwidth}{\textheight}}
+\centering
+\begin{tabular}{lr}
+\toprule
+~          & Âge \\
+\midrule
+N          &  34 \\
+Manquants  &   0 \\
+Moyenne    &   ~ \\
+Médiane    &   ~ \\
+Ecart-type &   ~ \\
+Minimum    &   ~ \\
+Maximum    &   ~ \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\begin{tablenotes}[para,flushleft] {
+\small
+}
+\end{tablenotes}
+\end{table}
+
+
+      
+        
+      
+    
+\subsection{Fréquences}
+
+      
+        
+      
+    
+\begin{table}[!htbp]
+\caption{Fréquences de Âge}
+\label{tab:Table_4}
+\begin{adjustbox}{max size={\columnwidth}{\textheight}}
+\centering
+\begin{tabular}{lrrr}
+\toprule
+Âge            & Quantités & \% du Total & \% cumulés \\
+\midrule
+18-29 ans      &        12 &      35.3\% &     35.3\% \\
+30-39 ans      &        14 &      41.2\% &     76.5\% \\
+40-49 ans      &         6 &      17.6\% &     94.1\% \\
+50-59 ans      &         1 &       2.9\% &     97.1\% \\
+60 ans et plus &         1 &       2.9\% &    100.0\% \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\begin{tablenotes}[para,flushleft] {
+\small
+}
+\end{tablenotes}
+\end{table}
+
+
+      
+        
+      
+    
+      
+      
+    
+      
+        
+      
+    
+\subsection{Graphes}
+
+      
+        
+      
+    
+\subsubsection{Âge}
+
+      
+        
+      
+    
+      
+      
+    %\begin{figure}[htbp]
+%\caption{PLACEHOLDER}
+%\label{fig:Figure_2}
+% (the following arrangement follows APA7; if you want to use APA6, the caption- and label-lines have to be moved to after the includegraphics-line)
+% the figure file could not be exported, the LaTeX command below including that figure was therefore commented out
+%\centering
+%\includegraphics[width=\columnwidth]{figure_2.png}
+%\end{figure}
+
+% =========================================================================================================
+
+% Report your results here and make references to tables (see Table~\ref{tab:Table_1}) or figures (see Figure~\ref{fig:Figure_1}).
+
+%\section{Discussion}
+% Your discussion starts here.
+
+%\printbibliography
+
+%\appendix
+
+%\section{Additional tables and figures}
+
+%Your text introducing supplementary tables and figures.
+
+% If required copy tables and figures from the main results here.
+
+\end{document}
+
